@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import sqlite3
 import controller.company.company_controller as company_controller
 import controller.location.location_controller as location_controller
+import controller.sensor.sensor_controller as sensor_controller
 
 DATABASE_NAME = 'IoT.db'
 
@@ -35,6 +36,29 @@ def get_all_companies():
     companies = company_controller.get_companies()
     return companies
 
+@app.route('/api/v1/create_sensor', methods = ['POST'])
+def create_sensor():
+    data = request.get_json()
+    location_id = data['location_id']
+    name = data['sensor_name']
+    category = data['sensor_category']
+    meta = data['sensor_meta]']
+    sensor = sensor_controller.insert_sensor(location_id, name, category, meta)
+    return "Success", 201
+
+@app.route('/update_sensor/<id>', methods=['PUT'])
+def update_sensor(id):
+    sensor_info = sensor_controller.get_by_id(id)
+    data = request.get_json()
+    if(sensor_info[1] != data['location_id']):
+        location_id = data['location_id'] ###### AQUI SEGUIR
+    sensor_controller.update_sensor(id) 
+@app.route('/delete_sensor', methods=['DELETE'])
+def delete_company(company_api_key):
+
+    sensor = sensor_controller.delete_sensor(id)
+    
+    return "OK", 200
 @app.route('/locations', methods=['GET'])
 def get_location():
     location = location_controller.get_locations()
