@@ -1,5 +1,14 @@
 import sqlite3
+import string
+import random
 DATABASE_NAME = 'IoT.db'
+
+def get_random_password():
+    # choose from all lowercase letter
+    characters = string.ascii_letters + string.digits + string.punctuation
+    password = ''.join(random.choice(characters) for i in range(36))
+    print("Random password is:", password)
+    return password
 
 def insert_company(company_name, company_api_key):
     db = sqlite3.connect(DATABASE_NAME)
