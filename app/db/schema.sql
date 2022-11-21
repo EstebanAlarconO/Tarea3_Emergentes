@@ -13,7 +13,7 @@ CREATE TABLE admin (
 CREATE TABLE company (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   company_name TEXT UNIQUE NOT NULL,
-  company_api_key TEXT NOT NULL
+  company_api_key TEXT UNIQUE NOT NULL
 );
 
 CREATE TABLE location ( 

@@ -18,10 +18,10 @@ def create_company():
     name = data['company_name']
     key = "a123s233d233"
     company = company_controller.insert_company(name, key)
-    return {}
+    return "Success", 201
 
 @app.route('/get_companies', methods=['GET'])
-def get_companies():
+def get_all_companies():
     companies = company_controller.get_companies()
     return companies   
 
