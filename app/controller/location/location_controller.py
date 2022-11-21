@@ -7,8 +7,8 @@ DATABASE_NAME = 'IoT.db'
 def insert_locations(name, country, city, meta, company):
     db = sqlite3.connect(DATABASE_NAME)
     cursor = db.cursor()    
-    statement = "INSERT INTO location(name, country, city, meta, company) VALUES (?, ?, ?, ?, ?)"
-    cursor.execute(statement, [name, country, city, meta, company])
+    statement = "INSERT INTO location(company_id, location_name, location_country, location_city, location_meta) VALUES (?, ?, ?, ?, ?)"
+    cursor.execute(statement, [company, name, country, city, meta])
     db.commit()
     return True
 
@@ -16,8 +16,8 @@ def insert_locations(name, country, city, meta, company):
 def update_location(name, country, city, meta, company, id):
     db = sqlite3.connect(DATABASE_NAME)
     cursor = db.cursor()
-    statement = "UPDATE location SET name = ?, country = ?, city = ?, meta = ?, company = ? WHERE id = ?"
-    cursor.execute(statement, [name, country, city, meta, company, id])
+    statement = "UPDATE location SET company_id = ?, location_name = ?, location_country = ?, location_city = ?, location_meta = ? WHERE id = ?"
+    cursor.execute(statement, [company, name, country, city, meta, id])
     db.commit()
     return True
 
