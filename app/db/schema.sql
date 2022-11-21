@@ -12,11 +12,11 @@ CREATE TABLE admin (
 
 CREATE TABLE company (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  company_name TEXT NOT NULL,
+  company_name TEXT UNIQUE NOT NULL,
   company_api_key TEXT NOT NULL
 );
 
-CREATE TABLE location (
+CREATE TABLE location ( 
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   company_id INTEGER NOT NULL,
   location_name TEXT NOT NULL,

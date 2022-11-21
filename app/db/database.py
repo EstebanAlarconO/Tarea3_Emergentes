@@ -1,5 +1,5 @@
 import sqlite3
-DATABASE_NAME = 'IoT.db'
+DATABASE_NAME = 'app\IoT.db'
 
 
 def get_db():
