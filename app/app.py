@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import sqlite3
 import controller.company.company_controller as company_controller
 import controller.location.location_controller as location_controller
@@ -7,10 +7,6 @@ DATABASE_NAME = 'IoT.db'
 
 app = Flask(__name__)
 
-@app.route('/locations', methods=['GET'])
-def get_location():
-    location = location_controller.get_locations()
-    return location
 
 @app.route('/create_company', methods=['POST'])
 def create_company():
@@ -20,10 +16,29 @@ def create_company():
     company = company_controller.insert_company(name, key)
     return "Success", 201
 
-@app.route('/get_companies', methods=['GET'])
+@app.route('/delete_company/<company_api_key>', methods=['DELETE'])
+def delete_company(company_api_key):
+    
+    company = company_controller.delete_company(company_api_key)
+    
+    return "OK", 200
+
+@app.route('/get_by_name', methods=['GET'])
+def get_by_name():
+    data = request.get_json()
+    name = data['company_name']
+    companie = company_controller.get_by_name(name)
+    return jsonify(companie), 201
+
+@app.route('/get_all_companies', methods=['GET'])
 def get_all_companies():
     companies = company_controller.get_companies()
-    return companies   
+    return companies
+
+@app.route('/locations', methods=['GET'])
+def get_location():
+    location = location_controller.get_locations()
+    return location   
 
 @app.route('/')
 def hello():

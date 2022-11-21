@@ -9,20 +9,19 @@ def insert_company(company_name, company_api_key):
     db.commit()
     return True
 
-def delete_company(id):
+def delete_company(key):
     db = sqlite3.connect(DATABASE_NAME)
     cursor = db.cursor()
-    statement = "DELETE FROM company WHERE id = ?"
-    cursor.execute(statement, [id])
+    statement = "DELETE FROM company WHERE company_api_key = ?"
+    cursor.execute(statement, [key])
     db.commit()
     return True
 
-
-def get_by_id(id):
+def get_by_name(company_name):
     db = sqlite3.connect(DATABASE_NAME)
     cursor = db.cursor()
-    statement = "SELECT * FROM company WHERE id = ?"
-    cursor.execute(statement, [id])
+    statement = "SELECT * FROM company WHERE company_name = ?"
+    cursor.execute(statement, [company_name])
     return cursor.fetchone()
 
 def get_companies():
