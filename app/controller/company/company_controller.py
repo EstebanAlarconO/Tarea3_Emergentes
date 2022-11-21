@@ -3,15 +3,15 @@ import string
 import random
 DATABASE_NAME = 'IoT.db'
 
-def get_random_password():
+def get_random_id():
     # choose from all lowercase letter
     characters = string.ascii_letters + string.digits + string.punctuation
-    password = ''.join(random.choice(characters) for i in range(36))
-    print("Random password is:", password)
-    return password
+    random_id = ''.join(random.choice(characters) for i in range(36))
+    return random_id
 
-def insert_company(company_name, company_api_key):
+def insert_company(company_name,):
     db = sqlite3.connect(DATABASE_NAME)
+    company_api_key = get_random_id()
     cursor = db.cursor()    
     statement = "INSERT INTO company(company_name, company_api_key) VALUES (?, ?)"
     cursor.execute(statement, [company_name, company_api_key])

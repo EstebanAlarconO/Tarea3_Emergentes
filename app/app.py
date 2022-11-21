@@ -13,13 +13,11 @@ app = Flask(__name__)
 def create_company():
     data = request.get_json()
     name = data['company_name']
-    key = "a123s233d233"
-    company = company_controller.insert_company(name, key)
+    company = company_controller.insert_company(name)
     return "Success", 201
 
 @app.route('/delete_company/<company_api_key>', methods=['DELETE'])
 def delete_company(company_api_key):
-    
     company = company_controller.delete_company(company_api_key)
     
     return "OK", 200
@@ -34,15 +32,15 @@ def get_by_name():
 @app.route('/get_all_companies', methods=['GET'])
 def get_all_companies():
     companies = company_controller.get_companies()
-    return companies
+    return jsonify(companies), 201
 
-@app.route('/api/v1/create_sensor', methods = ['POST'])
+@app.route('/create_sensor', methods = ['POST'])
 def create_sensor():
     data = request.get_json()
     location_id = data['location_id']
     name = data['sensor_name']
     category = data['sensor_category']
-    meta = data['sensor_meta]']
+    meta = data['sensor_meta']
     sensor = sensor_controller.insert_sensor(location_id, name, category, meta)
     return "Success", 201
 
@@ -51,14 +49,28 @@ def update_sensor(id):
     sensor_info = sensor_controller.get_by_id(id)
     data = request.get_json()
     if(sensor_info[1] != data['location_id']):
-        location_id = data['location_id'] ###### AQUI SEGUIR
-    sensor_controller.update_sensor(id) 
+        sensor_info[1] = data['location_id']
+    if(sensor_info[2] != data['sensor_name']):
+        sensor_info[2] = data['sensor_name']
+    if(sensor_info[3] != data['sensor_category']):
+        sensor_info[3] = data['sensor_category']
+    if(sensor_info[4] != data['sensor_meta']):
+        sensor_info[4] = data['sensor_meta']
+    
+    sensor = sensor_controller.update_sensor(id, sensor_info[1], sensor_info[2], sensor_info[3], sensor_info[4])
+    return "Success", 201
 @app.route('/delete_sensor', methods=['DELETE'])
-def delete_company(company_api_key):
+def delete_sensor(company_api_key):
 
     sensor = sensor_controller.delete_sensor(id)
     
     return "OK", 200
+
+@app.route('/get_all_sensors', methods=['GET'])
+def get_all_sensors():
+    sensors = sensor_controller.get_sensors()
+    return jsonify(sensors), 201
+
 @app.route('/locations', methods=['GET'])
 def get_location():
     location = location_controller.get_locations()
@@ -68,4 +80,4 @@ def get_location():
 def hello():
     conn = sqlite3.connect(DATABASE_NAME)
     result = conn.execute("SELECT * FROM Admin")
-    return result.fetchall()
+    return jsonify(result.fetchall())

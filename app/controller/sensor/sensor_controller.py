@@ -7,7 +7,6 @@ def get_api_key():
     # choose from all lowercase letter
     characters = string.ascii_letters + string.digits + string.punctuation
     api_key = ''.join(random.choice(characters) for i in range(36))
-    print("Random password is:", api_key)
     return api_key
 
 def insert_sensor(location_id, sensor_name, sensor_category, sensor_meta):
@@ -45,7 +44,7 @@ def get_by_id(id):
     cursor.execute(statement, [id])
     return cursor.fetchone()
 
-def get_all_sensors():
+def get_sensors():
     db = sqlite3.connect(DATABASE_NAME)
     cursor = db.cursor()
     query = "SELECT * FROM location"
