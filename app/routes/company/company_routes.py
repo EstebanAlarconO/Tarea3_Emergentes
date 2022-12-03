@@ -1,9 +1,10 @@
-from flask import request, jsonify, app
+from flask import request, jsonify, Flask
 import sqlite3
 import controller.company.company_controller as company_controller
 import controller.location.location_controller as location_controller
 import controller.sensor.sensor_controller as sensor_controller
 DATABASE_NAME = 'IoT.db'
+app = Flask(__name__)
 
 @app.route('/api/v1/create_company', methods=['POST'])
 def create_company():
