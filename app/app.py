@@ -33,7 +33,7 @@ def get_all_companies():
     companies = company_controller.get_companies()
     return jsonify(companies), 201
 
-@app.route('/create_sensor', methods = ['POST'])
+@app.route('/api/v1/create_sensor', methods = ['POST'])
 def create_sensor():
     data = request.get_json()
     location_id = data['location_id']
@@ -58,7 +58,6 @@ def update_sensor(id):
     
     sensor = sensor_controller.update_sensor(id, sensor_info[1], sensor_info[2], sensor_info[3], sensor_info[4])
     return "Success", 201
-
 @app.route('/delete_sensor', methods=['DELETE'])
 def delete_sensor(sensor_api_key):
 
@@ -68,10 +67,21 @@ def delete_sensor(sensor_api_key):
 
 @app.route('/get_all_sensors', methods=['GET'])
 def get_all_sensors():
-    sensors = sensor_controller.get_sensors()
+    sensors = sensor_controller.get_all_sensors()
     return jsonify(sensors), 201
 
+@app.route('/api/v1/get_by_id/<company_api_key>/<sensor_id>', methods = ['GET'])
+def get_sensor_by_id(company_api_key, sensor_id):
+    sensor = sensor_controller.get_by_id(company_api_key, sensor_id)
+    return jsonify(sensor), 201
 
+
+@app.route('/api/v1/delete_sensor/<sensor_id>', methods=['DELETE'])
+def delete_sensor(sensor_id):
+
+    sensor = sensor_controller.delete_sensor(sensor_id)
+    
+    return "OK", 200
 @app.route('/api/v1/locations', methods=['GET'])
 def get_location():
     location = location_controller.get_locations()
