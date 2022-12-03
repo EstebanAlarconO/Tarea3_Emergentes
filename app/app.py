@@ -71,10 +71,10 @@ def create_location(company_api_key):
     location = location_controller.insert_locations(name, country, city, meta, company_api_key)
     return jsonify(location), 201
 
-@app.route('/api/v1/delete_location/<company_api_key>', methods=['DELETE'])
-def delete_location(company_api_key):
+@app.route('/api/v1/delete_location/<company_api_key>/<id>', methods=['DELETE'])
+def delete_location(company_api_key,id):
 
-    location = location_controller.delete_location(company_api_key)
+    location = location_controller.delete_location(id,company_api_key)
 
     return "OK", 200           
 
