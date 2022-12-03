@@ -38,10 +38,20 @@ def get_all_companies():
 @app.route('/locations', methods=['GET'])
 def get_location():
     location = location_controller.get_locations()
-    return location   
+    return location
+
+@app.route('/add_location/<company_api_key>', methods=['POST'])
+def create_location(company_api_key):
+    data = request.get_json()
+    name, country, city, meta = data['location_name'], data['location_country'], data['location_city'], data['location_meta']
+    location = location_controller.insert_locations(company_api_key, name, country, city, meta)
+    return jsonify(location), 201           
 
 @app.route('/')
 def hello():
     conn = sqlite3.connect(DATABASE_NAME)
     result = conn.execute("SELECT * FROM Admin")
+    if len(result.fetchall()) == 0:
+        conn.execute("INSERT INTO Admin (username, password) VALUES (?, ?)", ("admin", "admin"))
+        result = conn.execute("SELECT * FROM Admin")
     return result.fetchall()
