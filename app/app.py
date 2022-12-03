@@ -9,29 +9,27 @@ DATABASE_NAME = 'IoT.db'
 app = Flask(__name__)
 
 
-@app.route('/create_company', methods=['POST'])
+@app.route('/api/v1/create_company', methods=['POST'])
 def create_company():
     data = request.get_json()
     name = data['company_name']
-    key = "a123s233d233"
-    company = company_controller.insert_company(name, key)
+    company = company_controller.insert_company(name)
     return "Success", 201
 
-@app.route('/delete_company/<company_api_key>', methods=['DELETE'])
+@app.route('/api/v1/delete_company/<company_api_key>', methods=['DELETE'])
 def delete_company(company_api_key):
     
     company = company_controller.delete_company(company_api_key)
+    location = location_controller.delete_location(company_api_key)
     
     return "OK", 200
 
-@app.route('/get_by_name', methods=['GET'])
-def get_by_name():
-    data = request.get_json()
-    name = data['company_name']
-    companie = company_controller.get_by_name(name)
-    return jsonify(companie), 201
+@app.route('/api/v1/get_by_key/<company_api_key>', methods=['GET'])
+def get_by_key(company_api_key):
+    company = company_controller.get_by_key(company_api_key)
+    return jsonify(company), 201
 
-@app.route('/get_all_companies', methods=['GET'])
+@app.route('/api/v1/get_all_companies', methods=['GET'])
 def get_all_companies():
     companies = company_controller.get_companies()
     return companies
@@ -46,30 +44,39 @@ def create_sensor():
     sensor = sensor_controller.insert_sensor(location_id, name, category, meta)
     return "Success", 201
 
-@app.route('/update_sensor/<id>', methods=['PUT'])
+@app.route('/api/v1/update_sensor/<id>', methods=['PUT'])
 def update_sensor(id):
     sensor_info = sensor_controller.get_by_id(id)
     data = request.get_json()
     if(sensor_info[1] != data['location_id']):
         location_id = data['location_id'] ###### AQUI SEGUIR
-    sensor_controller.update_sensor(id) 
-@app.route('/delete_sensor', methods=['DELETE'])
-def delete_company(company_api_key):
+    sensor_controller.update_sensor(id)
 
-    sensor = sensor_controller.delete_sensor(id)
+@app.route('/api/v1/delete_sensor/<sensor_api_key>', methods=['DELETE'])
+def delete_sensor(sensor_api_key):
+
+    sensor = sensor_controller.delete_sensor(sensor_api_key)
     
     return "OK", 200
-@app.route('/locations', methods=['GET'])
+
+@app.route('/api/v1/locations', methods=['GET'])
 def get_location():
     location = location_controller.get_locations()
     return location
 
-@app.route('/add_location/<company_api_key>', methods=['POST'])
+@app.route('/api/v1/add_location/<company_api_key>', methods=['POST'])
 def create_location(company_api_key):
     data = request.get_json()
     name, country, city, meta = data['location_name'], data['location_country'], data['location_city'], data['location_meta']
-    location = location_controller.insert_locations(company_api_key, name, country, city, meta)
-    return jsonify(location), 201           
+    location = location_controller.insert_locations(name, country, city, meta, company_api_key)
+    return jsonify(location), 201
+
+@app.route('/api/v1/delete_location/<company_api_key>', methods=['DELETE'])
+def delete_location(company_api_key):
+
+    location = location_controller.delete_location(company_api_key)
+
+    return "OK", 200           
 
 @app.route('/')
 def hello():
