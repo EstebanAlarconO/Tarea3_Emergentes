@@ -22,11 +22,11 @@ def update_location(name, country, city, meta, company, id):
     return True
 
 
-def delete_location(company_api_key):
+def delete_location(id, company_api_key):
     db = sqlite3.connect(DATABASE_NAME)
     cursor = db.cursor()
-    statement = "DELETE FROM location WHERE company_api_key = ?"
-    cursor.execute(statement, [company_api_key])
+    statement = "DELETE FROM location WHERE id = ? AND company_api_key = ?"
+    cursor.execute(statement, [id, company_api_key])
     db.commit()
     return True
 
