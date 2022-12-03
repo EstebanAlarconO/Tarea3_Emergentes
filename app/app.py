@@ -8,6 +8,10 @@ DATABASE_NAME = 'IoT.db'
 
 app = Flask(__name__)
 
+company_routes.init_company_routes(app)
+location_routes.init_location_routes(app)
+sensor_routes.init_sensor_routes(app)
+
 @app.route('/')
 def hello():
     conn = sqlite3.connect(DATABASE_NAME)
