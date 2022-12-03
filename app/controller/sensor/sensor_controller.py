@@ -5,17 +5,15 @@ DATABASE_NAME = 'IoT.db'
 
 def get_api_key():
     # choose from all lowercase letter
-    characters = string.ascii_letters + string.digits + string.punctuation
+    characters = string.ascii_letters + string.digits
     api_key = ''.join(random.choice(characters) for i in range(36))
-    print("Random password is:", api_key)
     return api_key
 
 def insert_sensor(location_id, sensor_name, sensor_category, sensor_meta):
     db = sqlite3.connect(DATABASE_NAME)
-    cursor = db.cursor()  
-    sensor_api_key = get_api_key()  
+    cursor = db.cursor()
     statement = "INSERT INTO sensor(location_id, sensor_name, sensor_category, sensor_meta, sensor_api_key) VALUES (?, ?, ?, ?, ?)"
-    cursor.execute(statement, [location_id, sensor_name, sensor_category, sensor_meta, sensor_api_key])
+    cursor.execute(statement, [location_id, sensor_name, sensor_category, sensor_meta, get_api_key()])
     db.commit()
     return True
 
@@ -29,11 +27,11 @@ def update_sensor(id, location_id, sensor_name, sensor_category, sensor_meta):
     return True
 
 
-def delete_sensor(id):
+def delete_sensor(key):
     db = sqlite3.connect(DATABASE_NAME)
     cursor = db.cursor()
-    statement = "DELETE FROM sensor WHERE id = ?"
-    cursor.execute(statement, [id])
+    statement = "DELETE FROM sensor WHERE sensor_api_key = ?"
+    cursor.execute(statement, [key])
     db.commit()
     return True
 
