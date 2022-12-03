@@ -28,25 +28,25 @@ def update_sensor(id, location_id, sensor_name, sensor_category, sensor_meta):
     return True
 
 
-def delete_sensor(id):
+def delete_sensor(sensor_api_key):
     db = sqlite3.connect(DATABASE_NAME)
     cursor = db.cursor()
-    statement = "DELETE FROM sensor WHERE id = ?"
-    cursor.execute(statement, [id])
+    statement = "DELETE FROM sensor WHERE sensor_api_key = ?"
+    cursor.execute(statement, [sensor_api_key])
     db.commit()
     return True
 
 
-def get_by_id(id):
+def get_by_id(company_api_key, sensor_id):
     db = sqlite3.connect(DATABASE_NAME)
     cursor = db.cursor()
-    statement = "SELECT * FROM sensor WHERE id = ?"
-    cursor.execute(statement, [id])
+    statement = "SELECT sensor.* FROM sensor, company  WHERE company.company_api_key = ? and company.id = location.company_id and  location.id = sensor.location_id and sensor.id = ?"
+    cursor.execute(statement, [company_api_key, sensor_id])
     return cursor.fetchone()
 
-def get_sensors():
+def get_sensors(company_api_key):
     db = sqlite3.connect(DATABASE_NAME)
     cursor = db.cursor()
-    query = "SELECT * FROM location"
-    cursor.execute(query)
+    query = "SELECT * FROM sensor"
+    cursor.execute(query, [company_api_key])
     return cursor.fetchall()

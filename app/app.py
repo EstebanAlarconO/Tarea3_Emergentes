@@ -60,9 +60,9 @@ def update_sensor(id):
     sensor = sensor_controller.update_sensor(id, sensor_info[1], sensor_info[2], sensor_info[3], sensor_info[4])
     return "Success", 201
 @app.route('/delete_sensor', methods=['DELETE'])
-def delete_sensor(company_api_key):
+def delete_sensor(sensor_api_key):
 
-    sensor = sensor_controller.delete_sensor(id)
+    sensor = sensor_controller.delete_sensor(sensor_api_key)
     
     return "OK", 200
 
