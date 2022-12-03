@@ -70,10 +70,10 @@ def get_sensor_by_id(company_api_key, sensor_id):
     return jsonify(sensor), 201
 
 
-@app.route('/api/v1/delete_sensor/<company_api_key>/<sensor_id>', methods=['DELETE'])
-def delete_sensor(company_api_key, sensor_id):
+@app.route('/api/v1/delete_sensor/<sensor_id>', methods=['DELETE'])
+def delete_sensor(sensor_id):
 
-    sensor = sensor_controller.delete_sensor(company_api_key,sensor_id)
+    sensor = sensor_controller.delete_sensor(sensor_id)
     
     return "OK", 200
 @app.route('/api/v1/locations', methods=['GET'])
