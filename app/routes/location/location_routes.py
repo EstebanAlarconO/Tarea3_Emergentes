@@ -36,4 +36,17 @@ def init_location_routes(app):
         
         location = location_controller.update_location(data["location_name"], data["location_country"], data["location_city"], data["location_meta"], id)
 
-        return "OK", 200    
+        return "OK", 200
+
+    @app.route('/api/v1/get_all_locations/<company_api_key>', methods=['GET'])
+    def get_all_locations(company_api_key):
+
+        locations = location_controller.get_locations(company_api_key)
+
+        return jsonify(locations)
+
+    @app.route('/api/v1/get_location_by_id/<company_api_key>/<location_id>', methods=['GET'])
+    def get_by_id(company_api_key, location_id):
+
+        location = location_controller.get_by_id(company_api_key, location_id)
+        return jsonify(location), 201

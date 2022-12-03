@@ -31,7 +31,7 @@ def delete_location(id):
     return True
 
 
-def get_by_id(id):
+def get_by_id(key,id):
     db = sqlite3.connect(DATABASE_NAME)
     cursor = db.cursor()
     statement = """SELECT l.* FROM company AS c, location AS l 
@@ -39,15 +39,15 @@ def get_by_id(id):
                 AND c.id = l.company_id
                 AND l.id = ?
                 """ 
-    cursor.execute(statement, [id])
+    cursor.execute(statement, [key,id])
     return cursor.fetchone()
 
-def get_locations():
+def get_locations(key):
     db = sqlite3.connect(DATABASE_NAME)
     cursor = db.cursor()
     query = """SELECT l.* FROM company AS c, location AS l 
                 WHERE c.company_api_key = ? 
                 AND c.id = l.company_id
                 """ 
-    cursor.execute(query)
+    cursor.execute(query,[key])
     return cursor.fetchall()    
