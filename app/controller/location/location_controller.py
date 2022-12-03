@@ -7,26 +7,26 @@ DATABASE_NAME = 'IoT.db'
 def insert_locations(name, country, city, meta, company):
     db = sqlite3.connect(DATABASE_NAME)
     cursor = db.cursor()    
-    statement = "INSERT INTO location(company_api_key, location_name, location_country, location_city, location_meta) VALUES (?, ?, ?, ?, ?)"
+    statement = "INSERT INTO location(company_id, location_name, location_country, location_city, location_meta) VALUES (?, ?, ?, ?, ?)"
     cursor.execute(statement, [company, name, country, city, meta])
     db.commit()
     return True
 
 
-def update_location(name, country, city, meta, company, id):
+def update_location(name, country, city, meta, id):
     db = sqlite3.connect(DATABASE_NAME)
     cursor = db.cursor()
-    statement = "UPDATE location SET location_name = ?, location_country = ?, location_city = ?, location_meta = ? WHERE id = ? AND company_api_key = ?"
-    cursor.execute(statement, [name, country, city, meta, id, company])
+    statement = "UPDATE location SET location_name = ?, location_country = ?, location_city = ?, location_meta = ? WHERE id = ?"
+    cursor.execute(statement, [name, country, city, meta, id])
     db.commit()
     return True
 
 
-def delete_location(id, company_api_key):
+def delete_location(id):
     db = sqlite3.connect(DATABASE_NAME)
     cursor = db.cursor()
-    statement = "DELETE FROM location WHERE id = ? AND company_api_key = ?"
-    cursor.execute(statement, [id, company_api_key])
+    statement = "DELETE FROM location WHERE id = ?"
+    cursor.execute(statement, [id])
     db.commit()
     return True
 

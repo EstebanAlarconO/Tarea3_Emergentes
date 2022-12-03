@@ -58,6 +58,7 @@ def update_sensor(id):
     
     sensor = sensor_controller.update_sensor(id, sensor_info[1], sensor_info[2], sensor_info[3], sensor_info[4])
     return "Success", 201
+
 @app.route('/delete_sensor', methods=['DELETE'])
 def delete_sensor(sensor_api_key):
 
@@ -76,19 +77,27 @@ def get_location():
     location = location_controller.get_locations()
     return location   
 
-@app.route('/api/v1/add_location/<company_api_key>', methods=['POST'])
-def create_location(company_api_key):
+@app.route('/api/v1/add_location', methods=['POST'])
+def create_location():
     data = request.get_json()
-    name, country, city, meta = data['location_name'], data['location_country'], data['location_city'], data['location_meta']
-    location = location_controller.insert_locations(name, country, city, meta, company_api_key)
+    company_id, name, country, city, meta = data['company_id'], data['location_name'], data['location_country'], data['location_city'], data['location_meta']
+    location = location_controller.insert_locations(company_id, name, country, city, meta)
     return jsonify(location), 201
 
-@app.route('/api/v1/delete_location/<company_api_key>/<id>', methods=['DELETE'])
-def delete_location(company_api_key,id):
+@app.route('/api/v1/delete_location/<id>', methods=['DELETE'])
+def delete_location(id):
 
-    location = location_controller.delete_location(id,company_api_key)
+    location = location_controller.delete_location(id)
 
     return "OK", 200           
+
+@app.route('/api/v1/update_location/<id>', methods=['PUT'])
+def update_location(id):
+    data = request.get_json()
+    
+    location = location_controller.update_location(data["location_name"], data["location_country"], data["location_city"], data["location_meta"], id)
+
+    return "OK", 200        
 
 @app.route('/')
 def hello():

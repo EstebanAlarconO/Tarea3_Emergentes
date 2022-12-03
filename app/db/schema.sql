@@ -18,12 +18,12 @@ CREATE TABLE company (
 
 CREATE TABLE location ( 
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  company_api_key INTEGER NOT NULL,
+  company_id INTEGER NOT NULL,
   location_name TEXT NOT NULL,
   location_country TEXT NOT NULL,
   location_city TEXT NOT NULL,
   location_meta TEXT NOT NULL,
-  FOREIGN KEY (company_api_key) REFERENCES company (company_api_key)
+  FOREIGN KEY (company_id) REFERENCES company (company_id)
 );
 
 CREATE TABLE sensor (
