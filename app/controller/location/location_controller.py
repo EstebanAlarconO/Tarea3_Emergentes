@@ -16,8 +16,8 @@ def insert_locations(name, country, city, meta, company):
 def update_location(name, country, city, meta, company, id):
     db = sqlite3.connect(DATABASE_NAME)
     cursor = db.cursor()
-    statement = "UPDATE location SET company_id = ?, location_name = ?, location_country = ?, location_city = ?, location_meta = ? WHERE id = ?"
-    cursor.execute(statement, [company, name, country, city, meta, id])
+    statement = "UPDATE location SET location_name = ?, location_country = ?, location_city = ?, location_meta = ? WHERE id = ? AND company_api_key = ?"
+    cursor.execute(statement, [name, country, city, meta, id, company])
     db.commit()
     return True
 
