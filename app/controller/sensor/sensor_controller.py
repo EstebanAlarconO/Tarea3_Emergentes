@@ -36,16 +36,16 @@ def delete_sensor(key):
     return True
 
 
-def get_by_id(id):
+def get_by_id(company_api_key, sensor_id):
     db = sqlite3.connect(DATABASE_NAME)
     cursor = db.cursor()
-    statement = "SELECT * FROM sensor WHERE id = ?"
-    cursor.execute(statement, [id])
+    statement = "SELECT t1.* FROM sensor AS t1, company AS t2, location AS t3 WHERE t2.company_api_key = ? AND t2.company_api_key = t3.company_api_key AND t3.id = t1.location_id AND t1.id = ?"
+    cursor.execute(statement, [company_api_key, sensor_id])
     return cursor.fetchone()
 
 def get_all_sensors():
     db = sqlite3.connect(DATABASE_NAME)
     cursor = db.cursor()
-    query = "SELECT * FROM location"
+    query = "SELECT * FROM sensor"
     cursor.execute(query)
     return cursor.fetchall()
