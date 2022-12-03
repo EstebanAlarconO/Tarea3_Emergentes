@@ -27,11 +27,11 @@ def update_sensor(id, location_id, sensor_name, sensor_category, sensor_meta):
     return True
 
 
-def delete_sensor(key):
+def delete_sensor(company_api_key, sensor_id):
     db = sqlite3.connect(DATABASE_NAME)
     cursor = db.cursor()
-    statement = "DELETE FROM sensor WHERE sensor_api_key = ?"
-    cursor.execute(statement, [key])
+    statement = "DELETE FROM sensor WHERE sensor_id = ?"
+    cursor.execute(statement, [sensor_id])
     db.commit()
     return True
 
