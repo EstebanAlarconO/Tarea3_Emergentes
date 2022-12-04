@@ -8,7 +8,7 @@ DATABASE_NAME = 'IoT.db'
 
 def init_sensor_data_routes(app):
 
-    @app.route('/api/v1/insert_sensor_data', methods = ['POST'])
+    @app.route('/api/v1/sensor_data', methods = ['POST'])
     def insert_sensor_data():
         data = request.get_json()
         sensor_data = sensor_data_controller.insert_sensor_data(data['sensor_api_key'], data['json_data'])

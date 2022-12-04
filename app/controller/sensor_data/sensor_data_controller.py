@@ -22,7 +22,10 @@ def get_sensor_data(sensor_api_key, from_date, to):
 
     db = sqlite3.connect(DATABASE_NAME)
     cursor = db.cursor()
-    statement = "SELECT * from sensor_data WHERE sensor_api_key = ? AND tiempo >= ? AND tiempo <= ?"
+    statement = "SELECT sensor_name, location_id FROM sensor WHERE sensor_api_key= ?"
+    cursor.execute(statement, [sensor_api_key])
+    nombre, locacion = cursor.fetchone()
+    statement = "SELECT * from "+nombre+str(locacion)+" WHERE sensor_api_key = ? AND tiempo >= ? AND tiempo <= ?"
     cursor.execute(statement,[sensor_api_key, epoch_to_date(int(from_date)), epoch_to_date(int(to))])
     return cursor.fetchall()
 
