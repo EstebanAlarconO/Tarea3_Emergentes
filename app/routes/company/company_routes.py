@@ -3,6 +3,7 @@ import sqlite3
 import controller.company.company_controller as company_controller
 import controller.location.location_controller as location_controller
 import controller.sensor.sensor_controller as sensor_controller
+import json
 DATABASE_NAME = 'IoT.db'
 
 def init_company_routes(app):
@@ -17,9 +18,10 @@ def init_company_routes(app):
     def delete_company(company_api_key):
         db = sqlite3.connect(DATABASE_NAME)
         cursor = db.cursor()    
-        location_id = "SELECT l.id FROM location AS l, company AS c WHERE c.company_api_key = ? AND c.id = l.company_id"
-        result = cursor.execute(location_id, [company_api_key]) 
-        sensor = sensor_controller.delete_sensor(result)
+        sensor_id = "SELECT s.id FROM location AS l, company AS c, sensor AS s WHERE c.company_api_key = ? AND c.id = l.company_id AND l.id = s.location_id"
+        cursor.execute(sensor_id, [company_api_key]) 
+        result = cursor.fetchall()
+        sensor = sensor_controller.delete_sensor(json.dumps(result))
         company_id = "SELECT id FROM company WHERE company_api_key = ?"
         result = cursor.execute(company_id, [company_api_key]) 
         location = location_controller.delete_location(result)

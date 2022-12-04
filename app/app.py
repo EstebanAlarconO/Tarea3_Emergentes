@@ -19,4 +19,4 @@ def hello():
     if len(result.fetchall()) == 0:
         conn.execute("INSERT INTO Admin (username, password) VALUES (?, ?)", ("admin", "admin"))
         result = conn.execute("SELECT * FROM Admin")
-    return result.fetchall()
+    return jsonify(result.fetchall())

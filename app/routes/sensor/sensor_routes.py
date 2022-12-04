@@ -19,22 +19,14 @@ def init_sensor_routes(app):
 
     @app.route('/api/v1/update_sensor/<id>', methods=['PUT'])
     def update_sensor(id):
-        sensor_info = sensor_controller.get_by_id(id)
         data = request.get_json()
-        if(sensor_info[1] != data['location_id']):
-            sensor_info[1] = data['location_id']
-        if(sensor_info[2] != data['sensor_name']):
-            sensor_info[2] = data['sensor_name']
-        if(sensor_info[3] != data['sensor_category']):
-            sensor_info[3] = data['sensor_category']
-        if(sensor_info[4] != data['sensor_meta']):
-            sensor_info[4] = data['sensor_meta']
-        
-        sensor = sensor_controller.update_sensor(id, sensor_info[1], sensor_info[2], sensor_info[3], sensor_info[4])
+
+        sensor = sensor_controller.update_sensor(id, data['location_id'], data['sensor_name'], data['sensor_category'], data['sensor_meta'])
         return "Success", 201
-    @app.route('/get_all_sensors', methods=['GET'])
-    def get_all_sensors():
-        sensors = sensor_controller.get_all_sensors()
+
+    @app.route('/api/v1/get_all_sensors/<company_api_key>', methods=['GET'])
+    def get_all_sensors(company_api_key):
+        sensors = sensor_controller.get_all_sensors(company_api_key)
         return jsonify(sensors), 201
 
     @app.route('/api/v1/get_by_id/<company_api_key>/<sensor_id>', methods = ['GET'])

@@ -30,14 +30,10 @@ def update_sensor(id, location_id, sensor_name, sensor_category, sensor_meta):
 def delete_sensor(sensor_id):
     db = sqlite3.connect(DATABASE_NAME)
     cursor = db.cursor()
-
-    if(type(sensor_id) == list):
-        for i in sensor_id:
-            statement = "DELETE FROM sensor WHERE sensor_id = ?"
-            cursor.execute(statement, [i])
-    else:
-        statement = "DELETE FROM sensor WHERE sensor_id = ?"
-        cursor.execute(statement, [sensor_id])
+    
+    for i in sensor_id:
+        statement = "DELETE FROM sensor WHERE id = ?"
+        cursor.execute(statement, [i[0]])
     db.commit()
     return True
 

@@ -38,7 +38,8 @@ CREATE TABLE sensor (
 
 CREATE TABLE sensor_data (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    sensor_id INTEGER NOT NULL,
-    data TEXT NOT NULL,
-    FOREIGN KEY (sensor_id) REFERENCES sensor (id)
+    sensor_api_key TEXT NOT NULL,
+    medicion TEXT NOT NULL,
+    tiempo,
+    FOREIGN KEY (sensor_api_key) REFERENCES sensor (sensor_api_key)
 )
