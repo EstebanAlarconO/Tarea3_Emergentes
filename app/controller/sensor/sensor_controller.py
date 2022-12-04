@@ -14,6 +14,13 @@ def insert_sensor(location_id, sensor_name, sensor_category, sensor_meta):
     cursor = db.cursor()
     statement = "INSERT INTO sensor(location_id, sensor_name, sensor_category, sensor_meta, sensor_api_key) VALUES (?, ?, ?, ?, ?)"
     cursor.execute(statement, [location_id, sensor_name, sensor_category, sensor_meta, get_api_key()])
+    #crear sensor_data
+    statement = """CREATE TABLE IF NOT EXISTS """+sensor_name + str(location_id)+ """ (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                                sensor_api_key TEXT NOT NULL,
+                                                medicion TEXT,
+                                                tiempo TEXT,
+                                                FOREIGN KEY (sensor_api_key) REFERENCES sensor (sensor_api_key))"""
+    cursor.execute(statement)
     db.commit()
     return True
 
