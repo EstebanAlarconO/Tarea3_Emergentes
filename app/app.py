@@ -27,5 +27,6 @@ def hello():
         result = conn.execute("SELECT * FROM Admin")
     return jsonify(result.fetchall())
 
-
+if __name__ == '__main__':
+    app.run(host='34.238.53.39', port=8080, debug=True)
 
