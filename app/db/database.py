@@ -1,5 +1,4 @@
 import sqlite3
-import os
 
 DATABASE_NAME = 'IoT.db'
 
@@ -16,4 +15,3 @@ def init_db():
         db.executescript(f.read())
 
 init_db()
-os.rename("IoT.db", "app/IoT.db")
