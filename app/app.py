@@ -15,7 +15,8 @@ location_routes.init_location_routes(app)
 sensor_routes.init_sensor_routes(app)
 sensor_data_routes.init_sensor_data_routes(app)
 
-os.rename('db/IoT.db', "IoT.db")
+if not os.path.isfile('IoT.db'):
+    os.rename('db/IoT.db', "IoT.db")
 
 @app.route('/')
 def hello():
@@ -25,3 +26,6 @@ def hello():
         conn.execute("INSERT INTO Admin (username, password) VALUES (?, ?)", ("admin", "admin"))
         result = conn.execute("SELECT * FROM Admin")
     return jsonify(result.fetchall())
+
+
+
