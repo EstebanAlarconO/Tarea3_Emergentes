@@ -3,6 +3,7 @@ import sqlite3
 import controller.company.company_controller as company_controller
 import controller.location.location_controller as location_controller
 import controller.sensor.sensor_controller as sensor_controller
+import controller.sensor_data.sensor_data_controller as sensor_data_controller
 DATABASE_NAME = 'IoT.db'
 
 def init_sensor_routes(app):
@@ -36,7 +37,6 @@ def init_sensor_routes(app):
 
     @app.route('/api/v1/delete_sensor/<sensor_id>', methods=['DELETE'])
     def delete_sensor(sensor_id):
-
         sensor = sensor_controller.delete_sensor(sensor_id)
         
         return "OK", 200    

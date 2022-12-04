@@ -14,18 +14,9 @@ def init_company_routes(app):
         company = company_controller.insert_company(name)
         return "Success", 201
 
-    @app.route('/api/v1/delete_company/<company_api_key>', methods=['DELETE'])
-    def delete_company(company_api_key):
-        db = sqlite3.connect(DATABASE_NAME)
-        cursor = db.cursor()    
-        sensor_id = "SELECT s.id FROM location AS l, company AS c, sensor AS s WHERE c.company_api_key = ? AND c.id = l.company_id AND l.id = s.location_id"
-        cursor.execute(sensor_id, [company_api_key]) 
-        result = cursor.fetchall()
-        sensor = sensor_controller.delete_sensor(json.dumps(result))
-        company_id = "SELECT id FROM company WHERE company_api_key = ?"
-        result = cursor.execute(company_id, [company_api_key]) 
-        location = location_controller.delete_location(result)
-        company = company_controller.delete_company(company_api_key)
+    @app.route('/api/v1/delete_company/<id>', methods=['DELETE'])
+    def delete_company(id):
+        company = company_controller.delete_company(id)
 
         return "OK", 200
 

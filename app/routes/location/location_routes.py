@@ -24,7 +24,8 @@ def init_location_routes(app):
         db = sqlite3.connect(DATABASE_NAME)
         cursor = db.cursor()    
         sensor_id = "SELECT s.id FROM location AS l, sensor AS s WHERE l.id = ? AND l.id = s.location_id"
-        result = jsonify(cursor.execute(sensor_id, [id])) 
+        cursor.execute(sensor_id, [id])
+        result = cursor.fetchall()
         sensor = sensor_controller.delete_sensor(result)
         location = location_controller.delete_location(id)
 

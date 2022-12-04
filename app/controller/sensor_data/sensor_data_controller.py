@@ -29,3 +29,14 @@ def get_sensor_data(sensor_api_key, from_date, to):
     cursor.execute(statement,[sensor_api_key, epoch_to_date(int(from_date)), epoch_to_date(int(to))])
     return cursor.fetchall()
 
+def delete_sensor_data(sensor_id):
+    db = sqlite3.connect(DATABASE_NAME)
+    cursor = db.cursor()
+    statement = "SELECT sensor_name, location_id FROM sensor WHERE id= ?"
+    cursor.execute(statement, [sensor_id])
+    nombre, locacion = cursor.fetchone()
+    statement = "DROP TABLE IF EXISTS "+nombre+str(locacion)+" ;"
+    cursor.execute(statement)
+    db.commit()
+    return True
+

@@ -20,7 +20,7 @@ def insert_company(company_name):
 def delete_company(key):
     db = sqlite3.connect(DATABASE_NAME)
     cursor = db.cursor()
-    statement = "DELETE FROM company WHERE company_api_key = ?"
+    statement = "DELETE FROM company WHERE id = ?"
     cursor.execute(statement, [key])
     db.commit()
     return True

@@ -1,6 +1,7 @@
 import sqlite3
 import string
 import random
+import controller.sensor_data.sensor_data_controller as sensor_data_controller
 DATABASE_NAME = 'IoT.db'
 
 def get_api_key():
@@ -37,8 +38,8 @@ def update_sensor(id, location_id, sensor_name, sensor_category, sensor_meta):
 def delete_sensor(sensor_id):
     db = sqlite3.connect(DATABASE_NAME)
     cursor = db.cursor()
-    
     for i in sensor_id:
+        sensor_data = sensor_data_controller.delete_sensor_data(i[0])
         statement = "DELETE FROM sensor WHERE id = ?"
         cursor.execute(statement, [i[0]])
     db.commit()

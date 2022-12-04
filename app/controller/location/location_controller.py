@@ -25,9 +25,8 @@ def update_location(name, country, city, meta, id):
 def delete_location(id):
     db = sqlite3.connect(DATABASE_NAME)
     cursor = db.cursor()
-    for i in id:
-        statement = "DELETE FROM location WHERE id = ?"
-        cursor.execute(statement, [i[0]])
+    statement = "DELETE FROM location WHERE id = ?"
+    cursor.execute(statement, id)
     db.commit()
     return True
 
